@@ -25,6 +25,10 @@ public static class Noise
         float maxNoiseHeight = float.MinValue;
         float minNoiseHeight = float.MaxValue;
 
+        float halfWidth = _width / 2;
+        float halfHeight = _height / 2;
+
+
         for (int y = 0; y < _height; y++)
         {
             for (int x = 0; x < _width; x++)
@@ -37,8 +41,8 @@ public static class Noise
                 {
                     // the higher the freuency, the further away the sample points,
                     // this means the height changes more rapidly
-                    float sampleX = x / _scale * frequency + octaveOffsets[i].x;
-                    float sampleY = y / _scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x - halfWidth) / _scale * frequency + octaveOffsets[i].x;
+                    float sampleY = (y - halfHeight) / _scale * frequency + octaveOffsets[i].y;
 
                     // generate values between -1 and 1 so that there can be dips in the 
                     // terrain when it is later generated
