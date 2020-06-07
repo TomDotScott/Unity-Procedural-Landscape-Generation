@@ -156,20 +156,41 @@ MonoBehaviour:
   drawMode: 1
   mapWidth: 100
   mapHeight: 100
-  seed: 94
-  noiseScale: 12.9
+  seed: 988142
+  noiseScale: 60.81
   octaves: 4
-  persistence: 0.343
-  lacunarity: 1.87
-  offset: {x: 13.4, y: 6.26}
+  persistence: 0.5
+  lacunarity: 2
+  offset: {x: 10.15, y: 10}
   autoUpdate: 1
   regions:
+  - name: Deep Water
+    height: 0.2
+    colour: {r: 0, g: 0.21209769, b: 0.5943396, a: 0}
   - name: Water
+    height: 0.3
+    colour: {r: 0, g: 0.35526323, b: 1, a: 0}
+  - name: Dark Sand
+    height: 0.35
+    colour: {r: 0.65882355, g: 0.56078434, b: 0.34901962, a: 0}
+  - name: Light Sand
     height: 0.4
-    colour: {r: 0, g: 0.35710096, b: 1, a: 0}
-  - name: Land
-    height: 1
+    colour: {r: 0.93, g: 0.79, b: 0.69, a: 0}
+  - name: Low Land
+    height: 0.5
+    colour: {r: 0.21260928, g: 0.7924528, b: 0, a: 0}
+  - name: High Land
+    height: 0.7
     colour: {r: 0.17396203, g: 0.6415094, b: 0, a: 0}
+  - name: Low Mountains
+    height: 0.75
+    colour: {r: 0.5660378, g: 0.4496743, b: 0.258989, a: 0}
+  - name: Low Mountains
+    height: 0.9
+    colour: {r: 0.5, g: 0.39389813, b: 0.21462265, a: 0}
+  - name: Snow
+    height: 1
+    colour: {r: 1, g: 1, b: 1, a: 0}
 --- !u!4 &817340561
 Transform:
   m_ObjectHideFlags: 0
