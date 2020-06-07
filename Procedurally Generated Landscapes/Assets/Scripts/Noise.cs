@@ -4,9 +4,18 @@ using UnityEngine;
 
 public static class Noise
 {
-    public static float[,] GenerateNoiseMap(int _width, int _height, float _scale, int _octaves, float _persistence, float _lacunarity)
+    public static float[,] GenerateNoiseMap(int _width, int _height, int _seed, float _scale, int _octaves, float _persistence, float _lacunarity, Vector2 _offset)
     {
         float[,] noiseMap = new float[_width, _height];
+
+        System.Random prng = new System.Random(_seed);
+        Vector2[] octaveOffsets = new Vector2[_octaves];
+        for(int i = 0; i < _octaves; i++)
+        {
+            float offsetX = prng.Next(-100000, 100000) + _offset.x;
+            float offsetY = prng.Next(-100000, 100000) + _offset.y;
+            octaveOffsets[i] = new Vector2(offsetX, offsetY);
+        }
 
         if (_scale <= 0)
         {
@@ -28,8 +37,8 @@ public static class Noise
                 {
                     // the higher the freuency, the further away the sample points,
                     // this means the height changes more rapidly
-                    float sampleX = x / _scale * frequency;
-                    float sampleY = y / _scale * frequency;
+                    float sampleX = x / _scale * frequency + octaveOffsets[i].x;
+                    float sampleY = y / _scale * frequency + octaveOffsets[i].y;
 
                     // generate values between -1 and 1 so that there can be dips in the 
                     // terrain when it is later generated
