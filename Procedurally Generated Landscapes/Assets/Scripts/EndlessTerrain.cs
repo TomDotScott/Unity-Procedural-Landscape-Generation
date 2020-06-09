@@ -122,7 +122,7 @@ public class EndlessTerrain : MonoBehaviour
             }
 
 
-            mapGenerator.RequestMapData(OnMapDataReceived);
+            mapGenerator.RequestMapData(position, OnMapDataReceived);
         }
 
         private void OnMapDataReceived(MapData _mapData)
