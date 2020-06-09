@@ -13,7 +13,7 @@ public static class Noise
         for(int i = 0; i < _octaves; i++)
         {
             float offsetX = prng.Next(-100000, 100000) + _offset.x;
-            float offsetY = prng.Next(-100000, 100000) + _offset.y;
+            float offsetY = prng.Next(-100000, 100000) - _offset.y;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
         }
 
@@ -41,8 +41,8 @@ public static class Noise
                 {
                     // the higher the freuency, the further away the sample points,
                     // this means the height changes more rapidly
-                    float sampleX = (x - halfWidth) / _scale * frequency + octaveOffsets[i].x;
-                    float sampleY = (y - halfHeight) / _scale * frequency + octaveOffsets[i].y;
+                    float sampleX = (x - halfWidth + octaveOffsets[i].x) / _scale * frequency;
+                    float sampleY = (y - halfHeight + octaveOffsets[i].y) / _scale * frequency;
 
                     // generate values between -1 and 1 so that there can be dips in the 
                     // terrain when it is later generated
