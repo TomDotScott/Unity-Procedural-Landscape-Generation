@@ -4,17 +4,30 @@ using UnityEngine;
 
 public static class Noise
 {
-    public static float[,] GenerateNoiseMap(int _width, int _height, int _seed, float _scale, int _octaves, float _persistence, float _lacunarity, Vector2 _offset)
+    public enum NormaliseMode
+    {
+        Local, Global
+    }
+
+    public static float[,] GenerateNoiseMap(int _width, int _height, int _seed, float _scale, int _octaves, float _persistence, float _lacunarity, Vector2 _offset, NormaliseMode _normaliseMode)
     {
         float[,] noiseMap = new float[_width, _height];
 
         System.Random prng = new System.Random(_seed);
         Vector2[] octaveOffsets = new Vector2[_octaves];
-        for(int i = 0; i < _octaves; i++)
+
+        float maxGlobalNoiseHeight = 0;
+        float amplitude = 1;
+        float frequency = 1;
+
+        for (int i = 0; i < _octaves; i++)
         {
             float offsetX = prng.Next(-100000, 100000) + _offset.x;
             float offsetY = prng.Next(-100000, 100000) - _offset.y;
             octaveOffsets[i] = new Vector2(offsetX, offsetY);
+
+            maxGlobalNoiseHeight += amplitude;
+            amplitude *= _persistence;
         }
 
         if (_scale <= 0)
@@ -22,8 +35,8 @@ public static class Noise
             _scale = 0.0001f;
         }
 
-        float maxNoiseHeight = float.MinValue;
-        float minNoiseHeight = float.MaxValue;
+        float maxLocalNoiseHeight = float.MinValue;
+        float minLocalNoiseHeight = float.MaxValue;
 
         float halfWidth = _width / 2;
         float halfHeight = _height / 2;
@@ -33,8 +46,8 @@ public static class Noise
         {
             for (int x = 0; x < _width; x++)
             {
-                float amplitude = 1;
-                float frequency = 1;
+                frequency = 1;
+                amplitude = 1;
                 float noiseHeight = 0;
 
                 for (int i = 0; i < _octaves; i++)
@@ -57,13 +70,13 @@ public static class Noise
                 }
 
                 // work out the range of the noisemap values
-                if (noiseHeight > maxNoiseHeight)
+                if (noiseHeight > maxLocalNoiseHeight)
                 {
-                    maxNoiseHeight = noiseHeight;
+                    maxLocalNoiseHeight = noiseHeight;
                 }
-                else if (noiseHeight < minNoiseHeight)
+                else if (noiseHeight < minLocalNoiseHeight)
                 {
-                    minNoiseHeight = noiseHeight;
+                    minLocalNoiseHeight = noiseHeight;
                 }
                 noiseMap[x, y] = noiseHeight;
             }
@@ -75,7 +88,16 @@ public static class Noise
         {
             for (int x = 0; x < _width; x++)
             {
-                noiseMap[x, y] = Mathf.InverseLerp(minNoiseHeight, maxNoiseHeight, noiseMap[x, y]);
+                if (_normaliseMode == NormaliseMode.Local)
+                {
+                    noiseMap[x, y] = Mathf.InverseLerp(minLocalNoiseHeight, maxLocalNoiseHeight, noiseMap[x, y]);
+                }
+                else
+                {
+                    // make the height values consistent across the entire map
+                    float normalizedHeight = (noiseMap[x, y] + 1) / (maxGlobalNoiseHeight / 1.75f);
+                    noiseMap[x, y] = Mathf.Clamp(normalizedHeight, 0, int.MaxValue);
+                }
             }
         } 
         return noiseMap;
