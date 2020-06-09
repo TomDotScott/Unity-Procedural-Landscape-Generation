@@ -6,6 +6,8 @@ public static class MeshGenerator
 {
 	public static MeshData GenerateTerrainMesh(float[,] _heightMap, float _heightMultiplier, AnimationCurve _heightCurve, int _levelOfDetail)
 	{
+		// Allows each thread to use the animation curve without locking the thread 
+		AnimationCurve heightCurve = new AnimationCurve(_heightCurve.keys);
 		int width = _heightMap.GetLength(0);
 		int height = _heightMap.GetLength(1);
 		float topLeftX = (width - 1) / -2f;
@@ -22,7 +24,7 @@ public static class MeshGenerator
 			for (int x = 0; x < width; x+= meshSimplificationIncrement)
 			{
 
-				meshData.vertices[currentVertex] = new Vector3(topLeftX + x, _heightCurve.Evaluate(_heightMap[x, y]) * _heightMultiplier, topLeftZ - y);
+				meshData.vertices[currentVertex] = new Vector3(topLeftX + x, heightCurve.Evaluate(_heightMap[x, y]) * _heightMultiplier, topLeftZ - y);
 				meshData.uvs[currentVertex] = new Vector2(x / (float)width, y / (float)height);
 
 				if (x < width - 1 && y < height - 1)
