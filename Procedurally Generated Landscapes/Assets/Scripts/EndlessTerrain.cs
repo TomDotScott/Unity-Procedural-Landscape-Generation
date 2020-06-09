@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    private const float viewerMoveThresholdForChunkUpdate = 25f;
+    private const float scale = 1;
+    private const float viewerMoveThresholdForChunkUpdate = 5f;
     private const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public LODInfo[] detailLevels;
@@ -37,7 +38,7 @@ public class EndlessTerrain : MonoBehaviour
 
     void Update()
     {
-        viewerPosition = new Vector2(viewer.position.x, viewer.position.z);
+        viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / scale;
 
         if ((previousViewerPosition - viewerPosition).sqrMagnitude > sqrViewerMoveThresholdForChunkUpdate)
         {
@@ -107,8 +108,9 @@ public class EndlessTerrain : MonoBehaviour
             meshRenderer.material = _mat;
             meshFilter = meshObject.AddComponent<MeshFilter>();
 
-            meshObject.transform.position = positionV3;
+            meshObject.transform.position = positionV3 * scale;
             meshObject.transform.parent = _parent;
+            meshObject.transform.localScale = Vector3.one * scale;
             SetVisible(false);
 
             lodMeshes = new LODMesh[detailLevels.Length];
