@@ -91,6 +91,7 @@ public class EndlessTerrain : MonoBehaviour
 
         private LODInfo[] detailLevels;
         private LODMesh[] lodMeshes;
+        private LODMesh collisionLODMesh;
 
         private MapData mapData;
         private bool mapDataReceived;
@@ -121,6 +122,10 @@ public class EndlessTerrain : MonoBehaviour
             for (int i = 0; i < detailLevels.Length; i++)
             {
                 lodMeshes[i] = new LODMesh(detailLevels[i].lod, UpdateTerrainChunk);
+                if (detailLevels[i].useForCollider)
+                {
+                    collisionLODMesh = lodMeshes[i];
+                }
             }
 
 
@@ -170,13 +175,26 @@ public class EndlessTerrain : MonoBehaviour
                         {
                             previousLevelOfDetail = lodIndex;
                             meshFilter.mesh = lodMesh.mesh;
-                            meshCollider.sharedMesh = lodMesh.mesh;
                         }
                         else if (!lodMesh.hasRequestedMesh)
                         {
                             lodMesh.RequestMesh(mapData);
                         }
                     }
+
+                    // Only use colliders if the player is close enough
+                    if(lodIndex == 0)
+                    {
+                        if (collisionLODMesh.hasMesh)
+                        {
+                            meshCollider.sharedMesh = collisionLODMesh.mesh;
+                        }else if (!collisionLODMesh.hasRequestedMesh)
+                        {
+                            collisionLODMesh.RequestMesh(mapData);
+                        }
+                    }
+
+
                     // add the chunk to the visible chunks list
                     terrainChunksVisibleLastUpdate.Add(this);
                 }
@@ -233,5 +251,6 @@ public class EndlessTerrain : MonoBehaviour
     {
         public int lod;
         public float visibleDistanceThreshold;
+        public bool useForCollider;
     }
 }
