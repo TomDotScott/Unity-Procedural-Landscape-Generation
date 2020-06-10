@@ -22,9 +22,6 @@ public class Flight : MonoBehaviour
             transform.eulerAngles = lastPos;
             lastPos = Input.mousePosition;
             //Mouse  camera angle done.  
-
-            //Keyboard commands
-            float f = 0.0f;
             var p = GetBaseInput();
             if (Input.GetKey(KeyCode.LeftShift))
             {
