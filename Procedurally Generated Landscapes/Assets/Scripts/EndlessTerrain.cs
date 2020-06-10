@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
 {
-    private const float scale = 1;
+    private const float scale = 2f;
     private const float viewerMoveThresholdForChunkUpdate = 25f;
     private const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
@@ -84,8 +84,11 @@ public class EndlessTerrain : MonoBehaviour
         private GameObject meshObject;
         private Vector2 position;
         private Bounds bounds;
+
         private MeshRenderer meshRenderer;
         private MeshFilter meshFilter;
+        private MeshCollider meshCollider;
+
         private LODInfo[] detailLevels;
         private LODMesh[] lodMeshes;
 
@@ -107,6 +110,7 @@ public class EndlessTerrain : MonoBehaviour
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshRenderer.material = _mat;
             meshFilter = meshObject.AddComponent<MeshFilter>();
+            meshCollider = meshObject.AddComponent<MeshCollider>();
 
             meshObject.transform.position = positionV3 * scale;
             meshObject.transform.parent = _parent;
@@ -166,6 +170,7 @@ public class EndlessTerrain : MonoBehaviour
                         {
                             previousLevelOfDetail = lodIndex;
                             meshFilter.mesh = lodMesh.mesh;
+                            meshCollider.sharedMesh = lodMesh.mesh;
                         }
                         else if (!lodMesh.hasRequestedMesh)
                         {
