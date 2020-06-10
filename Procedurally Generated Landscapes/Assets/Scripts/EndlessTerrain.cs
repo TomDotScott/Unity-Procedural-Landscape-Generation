@@ -6,7 +6,7 @@ using UnityEngine;
 public class EndlessTerrain : MonoBehaviour
 {
     private const float scale = 1;
-    private const float viewerMoveThresholdForChunkUpdate = 5f;
+    private const float viewerMoveThresholdForChunkUpdate = 25f;
     private const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
 
     public LODInfo[] detailLevels;
@@ -55,7 +55,7 @@ public class EndlessTerrain : MonoBehaviour
         }
         terrainChunksVisibleLastUpdate.Clear();
 
-        //find the coordinate of the chunk the player is standing on
+        // find the coordinate of the chunk the player is standing on
         int currentChunkCoordinateX = Mathf.RoundToInt(viewerPosition.x / chunkSize);
         int currentChunkCoordinateY = Mathf.RoundToInt(viewerPosition.y / chunkSize);
 
@@ -66,12 +66,12 @@ public class EndlessTerrain : MonoBehaviour
                 Vector2 viewedChunkCoordinate = new Vector2(currentChunkCoordinateX + xOffset, currentChunkCoordinateY + yOffset);
                 if (terrainChunkDict.ContainsKey(viewedChunkCoordinate))
                 {
-                    //update the terrain chunk
+                    // update the terrain chunk
                     terrainChunkDict[viewedChunkCoordinate].UpdateTerrainChunk();
                 }
                 else
                 {
-                    //instantiate new terrain chunk
+                    // instantiate new terrain chunk
                     terrainChunkDict.Add(viewedChunkCoordinate, new TerrainChunk(viewedChunkCoordinate, chunkSize, detailLevels, transform, mapMaterial));
                 }
             }
