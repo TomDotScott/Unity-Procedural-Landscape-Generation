@@ -11,6 +11,9 @@ public class MapGenerator : MonoBehaviour
 
     public TerrainData terrainData;
     public NoiseData noiseData;
+    public TextureData textureData;
+
+    public Material terrainMaterial;
 
     [Range(0, 6)]
     public int previewLevelOfDetail;
@@ -28,6 +31,11 @@ public class MapGenerator : MonoBehaviour
         {
             DrawMapInEditor();
         }
+    }
+
+    private void OnTextureValuesUpdated()
+    {
+        textureData.ApplyToMaterial(terrainMaterial);
     }
 
     public int mapChunkSize
@@ -143,12 +151,14 @@ public class MapGenerator : MonoBehaviour
             }
         }
 
+        textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+
         return new MapData(noiseMap);
     }
 
 
     /// <summary>
-    /// Clamps the values of the variables whenever one of them is changed
+    /// Updates the Data Scripts with the new values
     /// </summary>
     void OnValidate()
     {
@@ -162,6 +172,11 @@ public class MapGenerator : MonoBehaviour
         {
             noiseData.OnValuesUpdated -= OnValuesUpdated;
             noiseData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if(textureData != null)
+        {
+            textureData.OnValuesUpdated -= OnValuesUpdated;
+            textureData.OnValuesUpdated += OnValuesUpdated;
         }
     }
 
