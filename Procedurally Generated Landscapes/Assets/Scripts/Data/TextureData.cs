@@ -2,10 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 [CreateAssetMenu()]
 public class TextureData : UpdatableData
 {
+	private const int textureSize = 512;
+
+	// Create a 16-bit colour texture format
+	private const TextureFormat textureFormat = TextureFormat.RGB565;
+
 	public Layer[] layers;
 
 	float savedMinHeight;
@@ -24,8 +30,8 @@ public class TextureData : UpdatableData
 		material.SetFloatArray("baseBlends", layers.Select(x => x.blendStrength).ToArray());
 		material.SetFloatArray("baseColourStrengths", layers.Select(x => x.tintStrength).ToArray());
 		material.SetFloatArray("baseTextureScales", layers.Select(x => x.textureScale).ToArray());
-
-
+		Texture2DArray texturesArray = GenerateTextureArray(layers.Select(x => x.texture).ToArray());
+		material.SetTexture("baseTextures", texturesArray);
 
 		savedMinHeight = minHeight;
 		savedMaxHeight = maxHeight;
@@ -34,13 +40,25 @@ public class TextureData : UpdatableData
 		material.SetFloat("maxHeight", maxHeight);
 	}
 
+	private Texture2DArray GenerateTextureArray(Texture2D[] textures)
+    {
+		Texture2DArray textureArray = new Texture2DArray(textureSize, textureSize, textures.Length, textureFormat, true);
+		for(int i = 0; i < textures.Length; i++)
+        {
+			textureArray.SetPixels(textures[i].GetPixels(), i);
+        }
+		textureArray.Apply();
+		return textureArray;
+    }
+
+
 	/// <summary>
 	/// Allows for multiple textures to be used
 	/// </summary>
 	[System.Serializable]
 	public class Layer
     {
-		public Texture texture;
+		public Texture2D texture;
 		public Color tint;
 		[Range(0, 1)]
 		public float tintStrength;
