@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62ae2a73564c5c24588c728e1e1ad834, type: 3}
-  m_Name: New Noise Data
+  m_Name: Default Noise
   m_EditorClassIdentifier: 
+  autoUpdate: 1
   normaliseMode: 0
-  noiseScale: 0
-  octaves: 0
-  persistance: 0
-  lacunarity: 0
-  seed: 0
+  noiseScale: 50
+  octaves: 6
+  persistance: 0.506
+  lacunarity: 2
+  seed: 280301
   offset: {x: 0, y: 0}

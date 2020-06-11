@@ -31,6 +31,14 @@ public class MapGenerator : MonoBehaviour
         fallOffMap = FallOffGenerator.GenerateFallOffMap(mapChunkSize);
     }
 
+    private void OnValuesUpdated()
+    {
+        if (!Application.isPlaying)
+        {
+            DrawMapInEditor();
+        }
+    }
+
     public static int mapChunkSize
     {
         get
@@ -170,6 +178,17 @@ public class MapGenerator : MonoBehaviour
     /// </summary>
     void OnValidate()
     {
+        if(terrainData != null)
+        {
+            // Ensure the subscription count stays at one
+            terrainData.OnValuesUpdated -= OnValuesUpdated;
+            terrainData.OnValuesUpdated += OnValuesUpdated;
+        }
+        if(noiseData != null)
+        {
+            noiseData.OnValuesUpdated -= OnValuesUpdated;
+            noiseData.OnValuesUpdated += OnValuesUpdated;
+        }
         fallOffMap = FallOffGenerator.GenerateFallOffMap(mapChunkSize);
     }
 
