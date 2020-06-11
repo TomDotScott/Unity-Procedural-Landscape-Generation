@@ -11,13 +11,15 @@ public class UpdatableData : ScriptableObject
     {
         if (autoUpdate)
         {
-            NotifyOfUpdatedValues();
+            // waits until the shader has finished compiling
+            UnityEditor.EditorApplication.update += NotifyOfUpdatedValues;
         }
     }
 
     public void NotifyOfUpdatedValues()
     {
-        if(OnValuesUpdated != null)
+        UnityEditor.EditorApplication.update -= NotifyOfUpdatedValues;
+        if (OnValuesUpdated != null)
         {
             OnValuesUpdated();
         }
