@@ -27,6 +27,7 @@ public class MapGenerator : MonoBehaviour
 
     private void Awake()
     {
+        textureData.ApplyToMaterial(terrainMaterial);
         textureData.UpdateMeshHeights(terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
     }
 
