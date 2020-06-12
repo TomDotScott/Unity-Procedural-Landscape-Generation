@@ -26,7 +26,7 @@ public class EndlessTerrain : MonoBehaviour
     private int chunksVisibleInViewDistance;
 
     Dictionary<Vector2, TerrainChunk> terrainChunkDict = new Dictionary<Vector2, TerrainChunk>();
-    private static List<TerrainChunk> terrainChunksVisibleLastUpdate = new List<TerrainChunk>();
+    private static List<TerrainChunk> visibleTerrainChunks = new List<TerrainChunk>();
 
     void Start()
     {
@@ -44,7 +44,7 @@ public class EndlessTerrain : MonoBehaviour
         // Check if the collision mesh needs updating whenever the player moves
         if (viewerPosition != previousViewerPosition)
         {
-            foreach (var chunk in terrainChunksVisibleLastUpdate)
+            foreach (var chunk in visibleTerrainChunks)
             {
                 chunk.UpdateCollisionMesh();
             }
@@ -60,11 +60,13 @@ public class EndlessTerrain : MonoBehaviour
 
     void UpdateVisibleChunks()
     {
-        foreach (var chunk in terrainChunksVisibleLastUpdate)
+        HashSet<Vector2> alreadyUpdatedChunkCoords = new HashSet<Vector2>();
+
+        for (int i = visibleTerrainChunks.Count - 1; i >= 0; i--)
         {
-            chunk.SetVisible(false);
+            alreadyUpdatedChunkCoords.Add(visibleTerrainChunks[i].coord);
+            visibleTerrainChunks[i].UpdateTerrainChunk();
         }
-        terrainChunksVisibleLastUpdate.Clear();
 
         // find the coordinate of the chunk the player is standing on
         int currentChunkCoordinateX = Mathf.RoundToInt(viewerPosition.x / chunkSize);
@@ -75,15 +77,19 @@ public class EndlessTerrain : MonoBehaviour
             for (int xOffset = -chunksVisibleInViewDistance; xOffset <= chunksVisibleInViewDistance; xOffset++)
             {
                 Vector2 viewedChunkCoordinate = new Vector2(currentChunkCoordinateX + xOffset, currentChunkCoordinateY + yOffset);
-                if (terrainChunkDict.ContainsKey(viewedChunkCoordinate))
+                // Only update if it hasn't been updated already
+                if (!alreadyUpdatedChunkCoords.Contains(viewedChunkCoordinate))
                 {
-                    // update the terrain chunk
-                    terrainChunkDict[viewedChunkCoordinate].UpdateTerrainChunk();
-                }
-                else
-                {
-                    // instantiate new terrain chunk
-                    terrainChunkDict.Add(viewedChunkCoordinate, new TerrainChunk(viewedChunkCoordinate, chunkSize, detailLevels, colliderLODIndex, transform, mapMaterial));
+                    if (terrainChunkDict.ContainsKey(viewedChunkCoordinate))
+                    {
+                        // update the terrain chunk
+                        terrainChunkDict[viewedChunkCoordinate].UpdateTerrainChunk();
+                    }
+                    else
+                    {
+                        // instantiate new terrain chunk
+                        terrainChunkDict.Add(viewedChunkCoordinate, new TerrainChunk(viewedChunkCoordinate, chunkSize, detailLevels, colliderLODIndex, transform, mapMaterial));
+                    }
                 }
             }
         }
@@ -92,6 +98,8 @@ public class EndlessTerrain : MonoBehaviour
 
     public class TerrainChunk
     {
+        public Vector2 coord;
+
         private GameObject meshObject;
         private Vector2 position;
         private Bounds bounds;
@@ -113,6 +121,7 @@ public class EndlessTerrain : MonoBehaviour
 
         public TerrainChunk(Vector2 _coord, int _size, LODInfo[] _detailLevels, int _colliderLODIndex, Transform _parent, Material _mat)
         {
+            coord = _coord;
             detailLevels = _detailLevels;
             colliderLODIndex = _colliderLODIndex;
 
@@ -158,6 +167,8 @@ public class EndlessTerrain : MonoBehaviour
             if (mapDataReceived)
             {
                 float viewerDistance = Mathf.Sqrt(bounds.SqrDistance(viewerPosition));
+
+                bool wasVisible = IsVisible();
                 bool visible = viewerDistance <= maxViewDistance;
                 // Compare the distance from the viewer to the distance thresholds for the Level of Details
                 if (visible)
@@ -191,11 +202,20 @@ public class EndlessTerrain : MonoBehaviour
                             lodMesh.RequestMesh(mapData);
                         }
                     }
-
-                    // add the chunk to the visible chunks list
-                    terrainChunksVisibleLastUpdate.Add(this);
                 }
-                SetVisible(visible);
+                if (wasVisible != visible)
+                {
+                    if (wasVisible)
+                    {
+                        // add the chunk to the visible chunks list
+                        visibleTerrainChunks.Add(this);
+                    }
+                    else
+                    {
+                        visibleTerrainChunks.Remove(this);
+                    }
+                    SetVisible(visible);
+                }
             }
         }
 
