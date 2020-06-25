@@ -9,6 +9,8 @@ public class EndlessTerrain : MonoBehaviour
     const float sqrViewerMoveThresholdForChunkUpdate = viewerMoveThresholdForChunkUpdate * viewerMoveThresholdForChunkUpdate;
     const float colliderGenerationDistanceThreshold = 5;
 
+    public GameObject waterPlanePrefab;
+
     public int colliderLODIndex;
     public LODInfo[] detailLevels;
     public static float maxViewDistance;
@@ -101,6 +103,7 @@ public class EndlessTerrain : MonoBehaviour
         public Vector2 coord;
 
         private GameObject meshObject;
+
         private Vector2 position;
         private Bounds bounds;
 
@@ -125,6 +128,7 @@ public class EndlessTerrain : MonoBehaviour
             detailLevels = _detailLevels;
             colliderLODIndex = _colliderLODIndex;
 
+
             position = _coord * _size;
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
             bounds = new Bounds(position, Vector2.one * _size);
@@ -134,6 +138,7 @@ public class EndlessTerrain : MonoBehaviour
             meshRenderer.material = _mat;
             meshFilter = meshObject.AddComponent<MeshFilter>();
             meshCollider = meshObject.AddComponent<MeshCollider>();
+
 
             meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformScale;
             meshObject.transform.parent = _parent;
