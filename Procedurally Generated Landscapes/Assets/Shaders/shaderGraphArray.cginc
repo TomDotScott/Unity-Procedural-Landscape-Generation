@@ -10,9 +10,9 @@ float baseBlends[maxLayerCount];
 float baseColourStrengths[maxLayerCount];
 float baseTextureScales[maxLayerCount];
 
-float invLerp(float a, float b, float t)
+float invLerp(float xx, float yy, float value)
 {
-    return a + t * (b - a);
+    return saturate((value - xx) / (yy - xx));
 }
 
 
@@ -31,18 +31,11 @@ void layer_terrain_float(float3 worldPos, float heightPercent, float3 worldNorma
     albedo = 0;
 
     for (int i = 0; i < layerCount; i ++) {
-        float drawStrength = invLerp(-baseBlends[i]/2 - epsilon, baseBlends[i]/2, heightPercent - baseStartHeights[i]);
-
+        float drawStrength = invLerp(-baseBlends[i] / 2 - epsilon, baseBlends[i] / 2, heightPercent - baseStartHeights[i]);
         float3 baseColour = baseColours[i] * baseColourStrengths[i];
         float3 textureColour = triplanar(worldPos, baseTextureScales[i], blendAxes, textures, ss, i) * (1-baseColourStrengths[i]);
-
-        albedo *= (1 - drawStrength) + (baseColour + textureColour) * drawStrength;
-        
-        if (i == 1)
-        {
-            debugResult = baseColourStrengths[i];
-        }
+        // drawStrength = 0.5;
+        albedo = albedo * (1 - drawStrength) + (baseColour + textureColour) * drawStrength;
     }
-    
     //albedo = debugResult;
 }
