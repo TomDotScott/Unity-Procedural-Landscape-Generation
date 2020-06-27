@@ -10,43 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f572a314444d4746b1fcafebbc6e21b, type: 3}
-  m_Name: Default Texture
+  m_Name: Default Texture 1
   m_EditorClassIdentifier: 
   autoUpdate: 1
   layers:
-  - texture: {fileID: 2800000, guid: f0cfe8551b86ad342a28c45baf81b20e, type: 3}
-    tint: {r: 0.9728174, g: 0, b: 1, a: 1}
-    tintStrength: 1
+  - texture: {fileID: 2800000, guid: 0689478ed78acba40a28c032a26d4c41, type: 3}
+    baseColour: {r: 0.6509804, g: 0.57254905, b: 0.47058827, a: 1}
+    colourStrength: 0.125
     startHeight: 0
     blendStrength: 0
     textureScale: 50
   - texture: {fileID: 2800000, guid: 202de79553a78bc4589ff1bb513a5fe7, type: 3}
-    tint: {r: 1, g: 0.981379, b: 0.5518868, a: 0}
-    tintStrength: 0
-    startHeight: 0.04
+    baseColour: {r: 0.6509804, g: 0.5764706, b: 0.4784314, a: 1}
+    colourStrength: 0.241
+    startHeight: 0.056
     blendStrength: 0.02
     textureScale: 20
   - texture: {fileID: 2800000, guid: 7ada1923570ff2e49ac45f4634ffff87, type: 3}
-    tint: {r: 0.12428316, g: 0.5849056, b: 0, a: 0}
-    tintStrength: 0
+    baseColour: {r: 0.28627452, g: 0.3254902, b: 0.12941177, a: 0}
+    colourStrength: 0.236
     startHeight: 0.088
     blendStrength: 0.04
     textureScale: 30
   - texture: {fileID: 2800000, guid: 9ac1625fd623b234baef4bd96fe797e8, type: 3}
-    tint: {r: 0.5, g: 0.3333505, b: 0, a: 0}
-    tintStrength: 0
+    baseColour: {r: 0.427451, g: 0.38431376, b: 0.32156864, a: 0}
+    colourStrength: 0.632
     startHeight: 0.225
     blendStrength: 0.107
     textureScale: 30
   - texture: {fileID: 2800000, guid: 5dc67b35d8f9c284ba99314dfe5846d5, type: 3}
-    tint: {r: 0.2830189, g: 0.20176452, b: 0, a: 0}
-    tintStrength: 0
+    baseColour: {r: 0.65882355, g: 0.60784316, b: 0.5294118, a: 0}
+    colourStrength: 0.557
     startHeight: 0.558
     blendStrength: 0.313
     textureScale: 40
   - texture: {fileID: 2800000, guid: d711c93d584564f4e9e50936d2327aaa, type: 3}
-    tint: {r: 1, g: 0, b: 0, a: 0}
-    tintStrength: 0
+    baseColour: {r: 0.4156863, g: 0.37647063, b: 0.31764707, a: 0}
+    colourStrength: 0.471
     startHeight: 0.764
     blendStrength: 0.284
     textureScale: 20

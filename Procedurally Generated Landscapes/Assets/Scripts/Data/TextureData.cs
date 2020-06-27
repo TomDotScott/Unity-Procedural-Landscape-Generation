@@ -24,20 +24,28 @@ public class TextureData : UpdatableData
 
 	public void UpdateMeshHeights(Material material, float minHeight, float maxHeight)
 	{
-		material.SetInt("layerCount", layers.Length);
-		material.SetColorArray("baseColours", layers.Select(x => x.tint).ToArray());
-		material.SetFloatArray("baseStartHeights", layers.Select(x => x.startHeight).ToArray());
-		material.SetFloatArray("baseBlends", layers.Select(x => x.blendStrength).ToArray());
-		material.SetFloatArray("baseColourStrengths", layers.Select(x => x.tintStrength).ToArray());
-		material.SetFloatArray("baseTextureScales", layers.Select(x => x.textureScale).ToArray());
-		Texture2DArray texturesArray = GenerateTextureArray(layers.Select(x => x.texture).ToArray());
-		material.SetTexture("baseTextures", texturesArray);
+		material.SetInt("_layerCount", layers.Length);
+        material.SetColorArray("baseColours", layers.Select(x => x.baseColour).ToArray());
+        material.SetFloatArray("baseStartHeights", layers.Select(x => x.startHeight).ToArray());
+        material.SetFloatArray("baseBlends", layers.Select(x => x.blendStrength).ToArray());
+        material.SetFloatArray("baseColourStrengths", layers.Select(x => x.colourStrength).ToArray());
+		if(material.GetFloatArray("baseColourStrengths") != null)
+        {
+			Debug.Log("FLOAT ARRAY SET");
+			foreach(var value in material.GetFloatArray("baseColourStrengths"))
+            {
+				Debug.Log(value);
+            }
+        }
+        material.SetFloatArray("baseTextureScales", layers.Select(x => x.textureScale).ToArray());
+        Texture2DArray texturesArray = GenerateTextureArray(layers.Select(x => x.texture).ToArray());
+		material.SetTexture("_textures", texturesArray);
 
 		savedMinHeight = minHeight;
 		savedMaxHeight = maxHeight;
 
-		material.SetFloat("minHeight", minHeight);
-		material.SetFloat("maxHeight", maxHeight);
+		material.SetFloat("_minHeight", minHeight);
+		material.SetFloat("_maxHeight", maxHeight);
 	}
 
 	private Texture2DArray GenerateTextureArray(Texture2D[] textures)
@@ -59,9 +67,9 @@ public class TextureData : UpdatableData
 	public class Layer
     {
 		public Texture2D texture;
-		public Color tint;
+		public Color baseColour;
 		[Range(0, 1)]
-		public float tintStrength;
+		public float colourStrength;
 		[Range(0, 1)]
 		public float startHeight;
 		[Range(0, 1)]
