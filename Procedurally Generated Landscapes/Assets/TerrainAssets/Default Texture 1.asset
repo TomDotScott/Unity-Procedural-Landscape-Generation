@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   autoUpdate: 1
   layers:
-  - texture: {fileID: 2800000, guid: f0cfe8551b86ad342a28c45baf81b20e, type: 3}
-    baseColour: {r: 0, g: 0.3077016, b: 1, a: 1}
+  - texture: {fileID: 2800000, guid: 0689478ed78acba40a28c032a26d4c41, type: 3}
+    baseColour: {r: 0.6509804, g: 0.57254905, b: 0.47058827, a: 1}
     colourStrength: 0.125
     startHeight: 0
     blendStrength: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
   - texture: {fileID: 2800000, guid: 202de79553a78bc4589ff1bb513a5fe7, type: 3}
     baseColour: {r: 0.6509804, g: 0.5764706, b: 0.4784314, a: 1}
     colourStrength: 0.241
-    startHeight: 0.04
+    startHeight: 0.056
     blendStrength: 0.02
     textureScale: 20
   - texture: {fileID: 2800000, guid: 7ada1923570ff2e49ac45f4634ffff87, type: 3}
