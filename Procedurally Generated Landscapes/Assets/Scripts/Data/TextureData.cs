@@ -33,13 +33,6 @@ public class TextureData : UpdatableData
         Texture2DArray texturesArray = GenerateTextureArray(layers.Select(x => x.texture).ToArray());
 		material.SetTexture("_textures", texturesArray);
 
-		if(material.GetTexture("_textures") != null)
-        {
-			Debug.Log("TEXTURE ARRAY SET");
-			Debug.Log(texturesArray.depth);
-        }
-
-
 		savedMinHeight = minHeight;
 		savedMaxHeight = maxHeight;
 
@@ -52,7 +45,6 @@ public class TextureData : UpdatableData
 		Texture2DArray textureArray = new Texture2DArray(textureSize, textureSize, textures.Length, textureFormat, true);
 		for(int i = 0; i < textures.Length; i++)
         {
-			Debug.Log(textures[i].name);
 			textureArray.SetPixels(textures[i].GetPixels(), i);
         }
 		textureArray.Apply();

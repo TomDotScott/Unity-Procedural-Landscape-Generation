@@ -34,6 +34,8 @@ void layer_terrain_float(float3 worldPos, float heightPercent, float3 worldNorma
         float3 baseColour = baseColours[i] * baseColourStrength[i];
         float3 textureColour = triplanar(worldPos, baseTextureScales[i], blendAxes, textures, ss, i) * (1-baseColourStrength[i]);
 
-        albedo = albedo * (1-drawStrength) + textureColour * drawStrength;
+        albedo *= (1-drawStrength) + textureColour * drawStrength;
     }
+    
+    albedo /= layerCount;
 }
