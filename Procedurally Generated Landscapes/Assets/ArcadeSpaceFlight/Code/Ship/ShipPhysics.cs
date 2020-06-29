@@ -4,6 +4,7 @@
 /// Applies linear and angular forces to a ship.
 /// This is based on the ship physics from https://github.com/brihernandez/UnityCommon/blob/master/Assets/ShipPhysics/ShipPhysics.cs
 /// </summary>
+[RequireComponent(typeof(Rigidbody))]
 public class ShipPhysics : MonoBehaviour
 {
     [Tooltip("X: Lateral thrust\nY: Vertical thrust\nZ: Longitudinal Thrust")]
@@ -33,11 +34,6 @@ public class ShipPhysics : MonoBehaviour
     void Awake()
     {
         rbody = GetComponent<Rigidbody>();
-        if (rbody == null)
-        {
-            Debug.LogWarning(name + ": ShipPhysics has no rigidbody.");
-        }
-
         ship = GetComponent<Ship>();
     }
 

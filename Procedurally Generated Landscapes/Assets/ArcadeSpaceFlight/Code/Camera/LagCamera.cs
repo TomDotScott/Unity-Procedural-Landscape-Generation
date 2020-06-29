@@ -19,12 +19,6 @@ public class LagCamera : MonoBehaviour
     private void Start()
     {
         target = transform.parent;
-
-        if (target == null)
-            Debug.LogWarning(name + ": Lag Camera will not function correctly without a target.");
-        if (transform.parent == null)
-            Debug.LogWarning(name + ": Lag Camera will not function correctly without a parent to derive the initial offset from.");
-
         startOffset = transform.localPosition;
         transform.SetParent(null);
     }

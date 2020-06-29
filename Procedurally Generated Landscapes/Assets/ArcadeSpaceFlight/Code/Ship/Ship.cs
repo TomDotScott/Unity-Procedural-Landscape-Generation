@@ -12,9 +12,6 @@ public class Ship : MonoBehaviour
 
     private ShipInput input;
     private ShipPhysics physics;    
-
-    // Getters for external objects to reference things like input.
-    public bool UsingMouseInput { get { return input.useMouseInput; } }
     public Vector3 Velocity { get { return physics.Rigidbody.velocity; } }
     public float Throttle { get { return input.throttle; } }
 

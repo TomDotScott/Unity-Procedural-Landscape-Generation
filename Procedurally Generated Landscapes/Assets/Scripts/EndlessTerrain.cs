@@ -149,11 +149,6 @@ public class EndlessTerrain : MonoBehaviour
             meshCollider = meshObject.AddComponent<MeshCollider>();
             isOcean = _ocean;
 
-            if (_ocean)
-            {
-                Debug.Log("OCEAN CHUNK GENERATED!");
-            }
-
             meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformScale;
             meshObject.transform.parent = _parent;
             meshObject.transform.localScale = Vector3.one * mapGenerator.terrainData.uniformScale;
