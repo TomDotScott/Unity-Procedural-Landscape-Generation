@@ -29,7 +29,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _layerCount: 6
-    - _maxHeight: 50.01
+    - _maxHeight: 250.04999
     - _minHeight: 0
     m_Colors: []
   m_BuildTextureStacks: []

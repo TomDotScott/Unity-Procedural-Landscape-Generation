@@ -6,9 +6,11 @@ public class FollowPlayer : MonoBehaviour
 {
     public Transform player;
 
+    [SerializeField] private float height;
+
     // Update is called once per frame
     void Update()
     {
-        transform.position = new Vector3(player.position.x, 0.7f, player.position.z);
+        transform.position = new Vector3(player.position.x, height, player.position.z);
     }
 }

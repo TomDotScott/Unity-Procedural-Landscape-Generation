@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Flight : MonoBehaviour
+public class CameraFlight : MonoBehaviour
 {
     public float mainSpeed = 100;
     public float shiftAdd = 250;
