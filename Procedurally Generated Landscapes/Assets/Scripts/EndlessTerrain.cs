@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class EndlessTerrain : MonoBehaviour
@@ -10,6 +11,7 @@ public class EndlessTerrain : MonoBehaviour
     const float colliderGenerationDistanceThreshold = 5;
 
     public GameObject waterPlanePrefab;
+    public int oceanChunkChance;
 
     public int colliderLODIndex;
     public LODInfo[] detailLevels;
@@ -90,7 +92,13 @@ public class EndlessTerrain : MonoBehaviour
                     else
                     {
                         // instantiate new terrain chunk
-                        terrainChunkDict.Add(viewedChunkCoordinate, new TerrainChunk(viewedChunkCoordinate, chunkSize, detailLevels, colliderLODIndex, transform, mapMaterial));
+                        terrainChunkDict.Add(viewedChunkCoordinate, new TerrainChunk(viewedChunkCoordinate, 
+                            chunkSize, 
+                            detailLevels, 
+                            colliderLODIndex, 
+                            transform, 
+                            UnityEngine.Random.Range(1, 100) <= oceanChunkChance, 
+                            mapMaterial));
                     }
                 }
             }
@@ -111,6 +119,7 @@ public class EndlessTerrain : MonoBehaviour
         private MeshFilter meshFilter;
         private MeshCollider meshCollider;
         private bool hasSetCollider;
+        private bool isOcean;
 
         private LODInfo[] detailLevels;
         private LODMesh[] lodMeshes;
@@ -122,7 +131,7 @@ public class EndlessTerrain : MonoBehaviour
         private int previousLevelOfDetail = 1;
 
 
-        public TerrainChunk(Vector2 _coord, int _size, LODInfo[] _detailLevels, int _colliderLODIndex, Transform _parent, Material _mat)
+        public TerrainChunk(Vector2 _coord, int _size, LODInfo[] _detailLevels, int _colliderLODIndex, Transform _parent, bool _ocean, Material _mat)
         {
             coord = _coord;
             detailLevels = _detailLevels;
@@ -133,12 +142,17 @@ public class EndlessTerrain : MonoBehaviour
             Vector3 positionV3 = new Vector3(position.x, 0, position.y);
             bounds = new Bounds(position, Vector2.one * _size);
 
-            meshObject = new GameObject("Terrain Chunk");
+            meshObject = new GameObject("Chunk");
             meshRenderer = meshObject.AddComponent<MeshRenderer>();
             meshRenderer.material = _mat;
             meshFilter = meshObject.AddComponent<MeshFilter>();
             meshCollider = meshObject.AddComponent<MeshCollider>();
+            isOcean = _ocean;
 
+            if (_ocean)
+            {
+                Debug.Log("OCEAN CHUNK GENERATED!");
+            }
 
             meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformScale;
             meshObject.transform.parent = _parent;
@@ -219,7 +233,10 @@ public class EndlessTerrain : MonoBehaviour
                     {
                         visibleTerrainChunks.Remove(this);
                     }
-                    SetVisible(visible);
+                    if (!isOcean)
+                    {
+                        SetVisible(visible);
+                    }
                 }
             }
         }
