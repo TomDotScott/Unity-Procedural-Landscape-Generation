@@ -1,10 +1,12 @@
+
 # Unity-Procedural-Landscape-Generation
 
 An experiment into procedural generation to generate landmasses and landscapes using Perlin noise. This project features a relatively sophisticated system for creating and customising procedurally generated terrain. With different chunk sizes, the use of a fall-off map for generating islands and the ability to create different "biomes", with customisable `[AssetMenu()]` components. 
+![Generation and flight simulator](Showcase/Flying-Water.gif "World Generation")
 
 The chunks generated all have different LOD meshes, generated depending on their distance from the viewer. There are 6 different levels of details in the default chunk size (240) as 240 is evenly divisible by every integer up to 12. The chunks are generated across different threads, and collision detection is optimised. 
 
-<img src="http://www.tomdotscott.com/images/Github/TerrainGeneration/LOD-Meshes.gif">
+![Level of Detail Meshes](Showcase/LOD-Meshes.gif "LOD Meshes")
 
 # Configurable Data
 
@@ -19,7 +21,7 @@ Within the NoiseData assets, various factors to do with how the heightmap is gen
 * Seed. This is the seed for the PNRG.
 * Offset. Offsets the origin of the noise generated. 
 
-<img src="http://www.tomdotscott.com/images/Github/TerrainGeneration/Noise-Data.gif">
+![Level of Detail Meshes](Showcase/Noise-Data.gif "Nano's Adventure Gameplay")
 
 ## Terrain Data
 
@@ -30,7 +32,7 @@ Within the TerrainData assets, various factors can be configured that will chang
 * Height Multiplier. This slider determines the rate at which the heights change based on the value from the height map. 
 * Mesh Height Curve. This allows for the blending of different levels, as the increase is mapped to a curve. This allows for a much more natural look to the generated terrain. 
 
-<img src="http://www.tomdotscott.com/images/Github/TerrainGeneration/Terrain-Data.gif">
+![Level of Detail Meshes](Showcase/Terrain-Data.gif "Terrain Data")
 
 ## Texture Data
 
@@ -42,19 +44,19 @@ The texture data assets deal with the application of colour and textures to the 
 * Blend Strength. This slider determines the amount that each texture gets blended together to ease transitions between the textures. 
 * Texture Scale. This value determines how much the texture should be scaled up by when applied to the mesh. A higher value means that the tiling isn’t as noticeable, but means that the texture will be a lower resolution when applied. 
 
-<img src="http://www.tomdotscott.com/images/Github/TerrainGeneration/Texture-Data.gif">
-
 # Flying Through
+Towards the end of the experiment, a basic flight controller was made.
+![Level of Detail Meshes](Showcase/Flying-Water.gif "Nano's Adventure Gameplay")
 
 Here are some examples of what the generation looks like. 
 
 ## With Fall-Off Map
 
-<img src="http://http://www.tomdotscott.com/images/Github/TerrainGeneration/Flying-Fall-Off-Map.gif"> 
+![Flying with the fall-off map active](Showcase/Flying-Fall-Off-Map.gif "Flying")
 
 ## Without Fall Off Map
 
-<img src="http://www.tomdotscott.com/images/Github/TerrainGeneration/Flying.gif">
+![Flying with the fall-off map active](Showcase/Flying.gif "Flying")
 
 # Conclusion
 
@@ -62,6 +64,4 @@ This project has taught me a lot about Unity, through creating editable, updatab
 
 ## Features to add
 
-In terms of features that I would like to add to this project in the coming weeks and months, I would like to add a proper water shader. On the whole, it will make the terrain generated feel more alive and I feel is not too far out of my current programming reach. 
-
-I would also like to add procedural volumetric cloud generation to this project, inspired by <a href="https://github.com/SebLague">Sebastian Lague</a> in his <a href="https://www.youtube.com/watch?v=4QOcCGI6xOU">coding adventures video</a>.
+I would like to add procedural volumetric cloud generation to this project, inspired by <a href="https://github.com/SebLague">Sebastian Lague</a> in his <a href="https://www.youtube.com/watch?v=4QOcCGI6xOU">coding adventures video</a>.
